@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Digital de TV Premium - Biere Carnallo</title>
+    <!-- Tailwind CSS para layouts de alta fidelidad -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fuente premium con alta legibilidad a distancia -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <!-- Iconos para dar contexto visual -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            overflow: hidden;
+            background: #03040b; /* Fondo ultra oscuro y elegante para TV */
+        }
+        
+        /* Animación clásica y optimizada para la marquesina */
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            animation: marquee 28s linear infinite;
+        }
+
+        /* Efectos de transición acelerados por hardware para computadoras antiguas */
+        .card-transition {
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+
+        /* Entrada con deslizamiento suave y aparición gradual */
+        @keyframes slideUpFade {
+            0% {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .animate-slide-up {
+            animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Vidrio templado oscuro para contrastes nítidos */
+        .glass-card {
+            background: rgba(13, 17, 33, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* Resplandor decorativo para los logos y destaques */
+        .gold-glow {
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.15);
+        }
+        
+        /* Ocultar barra de desplazamiento */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="w-screen h-screen flex flex-col justify-between text-white select-none">
+
+    <!-- ENCABEZADO CON LOGO GIGANTE -->
+    <header class="w-full px-10 py-5 flex justify-between items-center border-b border-white/10 bg-slate-950/90 z-10 relative">
+        <div class="flex items-center space-x-8">
+            <!-- Contenedor del Logo: ¡Aumentado significativamente de tamaño para TV! -->
+            <div class="w-32 h-32 rounded-2xl bg-slate-950 p-2 flex items-center justify-center border-2 border-amber-500/40 gold-glow overflow-hidden transform hover:scale-105 transition-all duration-300 shrink-0">
+                <img src="https://i.imgur.com/9L2bt5o.png" alt="Biere Carnallo" class="max-h-full max-w-full object-contain">
+            </div>
+            <div class="space-y-1">
+                <h1 class="text-4xl font-black tracking-wider text-amber-400">BIERE CARNALLO</h1>
+                <div class="flex items-center space-x-3">
+                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
+                    <p class="text-base text-gray-300 uppercase tracking-widest font-bold">Un Mundo de Cervezas Artesanales</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RELOJ Y CALENDARIO SIN TEXTOS COMERCIALES MOLESTOS -->
+        <div class="flex items-center space-x-6 bg-slate-900/40 px-6 py-3 rounded-2xl border border-white/5">
+            <div class="flex flex-col items-end">
+                <span id="live-time" class="text-4xl font-black tracking-widest text-amber-400 font-mono">12:00:00 PM</span>
+                <span id="live-date" class="text-sm text-gray-400 tracking-wider uppercase font-bold mt-1">Lunes, 25 de Mayo</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ÁREA DE EXPOSICIÓN DINÁMICA -->
+    <main class="flex-grow w-full px-10 py-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch overflow-hidden relative">
+        
+        <!-- SECCIÓN IZQUIERDA: TARJETA GIGANTE DE PROMOCIÓN / COMBO -->
+        <section id="promo-section" class="lg:col-span-5 bg-gradient-to-br from-slate-900 via-slate-950 to-black rounded-3xl p-8 flex flex-col justify-between border-2 border-amber-500/30 gold-glow relative overflow-hidden animate-slide-up">
+            
+            <!-- Etiqueta Dinámica en Esquina -->
+            <div id="promo-tag" class="absolute top-5 left-5 bg-red-600 text-white font-black text-xs tracking-widest px-4 py-2.5 rounded-xl shadow-2xl uppercase animate-bounce z-10">
+                Especial del Día
+            </div>
+
+            <!-- Imagen del Producto / Paquete con Movimiento Suave -->
+            <div class="flex-grow flex items-center justify-center py-6 relative">
+                <div class="absolute w-64 h-64 bg-amber-500/5 rounded-full blur-3xl"></div>
+                <!-- Div de Imagenes para Combos (Doble Botella o Botella + Alimento) -->
+                <div id="promo-images-wrapper" class="relative flex items-center justify-center space-x-[-30px] transition-all duration-500">
+                    <img id="promo-image-1" src="" alt="Cerveza Destacada" class="max-h-80 object-contain drop-shadow-[0_25px_30px_rgba(0,0,0,0.85)] transform hover:rotate-3 transition duration-500">
+                    <img id="promo-image-2" src="" alt="Acompañante Combo" class="max-h-64 object-contain drop-shadow-[0_25px_30px_rgba(0,0,0,0.85)] hidden transition duration-500">
+                </div>
+            </div>
+
+            <!-- Textos y Precios con Formato de Tarjeta Premium -->
+            <div class="border-t border-white/10 pt-6 space-y-3 z-10">
+                <div class="flex justify-between items-center">
+                    <span id="promo-category" class="text-xs font-black text-amber-400 tracking-widest uppercase bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20">ESTILO</span>
+                    <span id="promo-stock" class="text-xs font-bold text-emerald-400">DISPONIBLE EN BARRA</span>
+                </div>
+                
+                <h2 id="promo-name" class="text-3xl font-black uppercase tracking-wide leading-none text-white drop-shadow-md">Nombre de la Cerveza</h2>
+                <p id="promo-desc" class="text-base text-gray-400 leading-relaxed font-light line-clamp-2">Cargando la mejor selección de maltas y lúpulos...</p>
+                
+                <!-- Tarjeta de Precio Gigante -->
+                <div class="bg-slate-900/60 p-4 rounded-2xl border border-white/5 flex justify-between items-center mt-4">
+                    <div>
+                        <span class="text-xs text-gray-500 block font-bold uppercase tracking-wider">PRECIO DE PANTALLA</span>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-4xl font-black text-emerald-400 tracking-tight">$<span id="promo-price">00</span></span>
+                            <span class="text-sm text-gray-400 font-bold ml-1">MXN</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] text-amber-500 font-bold block tracking-widest">GARANTÍA DE</span>
+                        <span class="text-xs text-white font-black tracking-wider uppercase">FRESCO Y FRÍO</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DERECHA: PANELES DE TARJETAS FLOTANTES -->
+        <section class="lg:col-span-7 flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-3">
+                <h3 class="text-lg font-black text-gray-400 tracking-wider uppercase"><i class="fa-solid fa-beer-mug-empty text-amber-400 mr-2"></i> Nuestra Cerveza del Día</h3>
+                <span id="rotation-status" class="text-xs text-amber-400 bg-amber-500/10 px-4 py-1.5 rounded-xl font-bold border border-amber-500/20 uppercase tracking-widest">Rotación Activa</span>
+            </div>
+            
+            <!-- Rejilla de Tarjetas Dinámicas -->
+            <div id="cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow content-start overflow-hidden">
+                <!-- Generado dinámicamente con JavaScript -->
+            </div>
+            
+            <!-- Pie de la Pizarra de Precios -->
+            <div class="mt-4 flex justify-between items-center text-xs text-gray-500 bg-white/5 p-4 rounded-2xl border border-white/5">
+                <span class="flex items-center gap-2"><i class="fa-solid fa-clock"></i> Actualizado en tiempo real desde Bierecarnallo.mx</span>
+                <span class="font-bold text-amber-500"><i class="fa-solid fa-arrows-spin mr-1 animate-spin"></i> Sincronizado</span>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MARQUESINA PUBLICITARIA -->
+    <footer class="w-full h-12 bg-amber-500 text-slate-950 font-bold flex items-center overflow-hidden border-t-4 border-amber-600 z-10 relative">
+        <div class="whitespace-nowrap flex items-center w-full">
+            <div class="bg-slate-950 text-amber-400 px-8 py-3 h-full uppercase tracking-wider text-xs font-black shrink-0 flex items-center gap-2">
+                <i class="fa-solid fa-bullhorn animate-bounce"></i> RECOMENDACIONES
+            </div>
+            <div class="w-full overflow-hidden relative flex items-center">
+                <p id="marquee-text" class="animate-marquee inline-block text-sm uppercase tracking-widest font-extrabold">
+                    ¡Bienvenidos a Biere Carnallo! • Pregunta por nuestras catas y maridajes los fines de semana • El exceso de alcohol es perjudicial para la salud • Pregunta a tu mesero por las novedades de grifo • Deliciosas botanas disponibles en barra.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERFAZ CONFIGURADORA DISCRETA (Abajo a la derecha, para activar/armar paquetes) -->
+    <div id="panel-config" class="fixed right-4 bottom-16 z-50 flex items-end">
+        <button onclick="toggleConfig()" class="w-10 h-10 bg-slate-900/80 hover:bg-slate-800 text-amber-400 rounded-xl flex items-center justify-center border border-white/10 shadow-2xl transition-all duration-300">
+            <i class="fa-solid fa-gears text-lg"></i>
+        </button>
+        
+        <!-- Cuerpo del Configurador de Paquetes -->
+        <div id="config-body" class="hidden ml-3 w-80 bg-slate-950 border border-white/15 rounded-2xl p-5 shadow-2xl">
+            <h4 class="text-sm font-black text-amber-400 border-b border-white/10 pb-2 mb-3 flex items-center justify-between">
+                <span><i class="fa-solid fa-wand-magic-sparkles mr-2"></i> CREACIÓN DE PAQUETES</span>
+                <span class="text-[10px] text-gray-500">Tecla [C]</span>
+            </h4>
+            
+            <div class="space-y-4 text-xs">
+                <!-- Toggle de Combos -->
+                <div class="flex justify-between items-center">
+                    <label class="font-bold text-gray-300">Sugerir Paquetes en Pantalla</label>
+                    <input type="checkbox" id="toggle-packages" checked class="w-4 h-4 accent-amber-500 cursor-pointer">
+                </div>
+                
+                <!-- Selector de Tipo de Combo -->
+                <div>
+                    <label class="block text-gray-400 mb-1.5 font-bold">Incentivo de Paquete</label>
+                    <select id="package-type" class="w-full bg-slate-900 border border-white/10 rounded-lg p-2 text-white outline-none focus:border-amber-500">
+                        <option value="pairing">Maridaje (Comida + Chela)</option>
+                        <option value="friends">Paquete Amigos (Chela x2 o Cubeta)</option>
+                        <option value="discount">Descuento Directo en Packs</option>
+                    </select>
+                </div>
+
+                <!-- Custom Marquee Banner -->
+                <div>
+                    <label class="block text-gray-400 mb-1.5 font-bold">Anuncio Personalizado</label>
+                    <input type="text" id="marquee-input" class="w-full bg-slate-900 border border-white/10 rounded-lg p-2 text-white outline-none focus:border-amber-500 text-xs" value="¡Prueba nuestros nuevos combos cerveceros! Consúltalo con tu mesero hoy mismo.">
+                </div>
+
+                <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-2.5 text-[10px] text-amber-400">
+                    <p><i class="fa-solid fa-circle-info mr-1"></i> El sistema creará combos de manera dinámica emparejando cervezas de tu JSON con deliciosas botanas recomendadas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA DE CARGA -->
+    <div id="loader" class="absolute inset-0 bg-slate-950 z-50 flex flex-col justify-center items-center space-y-4">
+        <div class="w-20 h-20 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+        <p class="text-xl font-bold tracking-widest text-amber-400 animate-pulse uppercase">Sincronizando menú dinámico de TV...</p>
+    </div>
+
+    <!-- CORE JAVASCRIPT ULTRALIGERO Y COMPATIBLE -->
+    <script>
+        // --- BASE DE DATOS DE RESPALDO (JSON SIMPLE) ---
+        var backupProducts = [
+            {
+                "id": 7776,
+                "name": "SANTA SABINA STOUT DE OLLA 355 ML",
+                "price": "75",
+                "category": "STOUT",
+                "image": "https://bierecarnallo.mx/wp-content/uploads/2024/12/images-7-1.jpeg",
+                "desc": "Cerveza artesanal mexicana Stout con un toque tradicional de café de olla, piloncillo y canela."
+            },
+            {
+                "id": 8158,
+                "name": "PRINCIPIA DARK LAGER 355 ML",
+                "price": "69",
+                "category": "LAGER",
+                "image": "https://bierecarnallo.mx/wp-content/uploads/2024/12/Principia-Dark-Lager_1200x1200.webp",
+                "desc": "Lager oscura, refrescante pero con notas a malta tostada y cacao. Estilo Dark Lager con 4.0% ABV."
+            },
+            {
+                "id": 10083,
+                "name": "PRINCIPIA SESSION IPA 355 ML",
+                "price": "79",
+                "category": "IPA",
+                "image": "https://bierecarnallo.mx/wp-content/uploads/2025/01/AV60.1B.jpg",
+                "desc": "Ligera, sumamente aromática, con notas cítricas y frutales ideales para los amantes del lúpulo."
+            },
+            {
+                "id": 7691,
+                "name": "PRINCIPIA OATMEAL STOUT 355 ML",
+                "price": "74",
+                "category": "STOUT",
+                "image": "https://bierecarnallo.mx/wp-content/uploads/2024/12/Principia_OatmealStout_384x384.webp",
+                "desc": "De textura cremosa y suave gracias a la avena, con profundas notas a café espresso y chocolate."
+            },
+            {
+                "id": 7695,
+                "name": "PRINCIPIA SPECTRA IPA 355 ML",
+                "price": "87",
+                "category": "IPA",
+                "image": "https://bierecarnallo.mx/wp-content/uploads/2024/12/6b1a1d_510b7c9f95cf4156af38646d27f9a18cmv2.webp",
+                "desc": "Cerveza color dorado intenso, amargor limpio y potente aroma frutal. Estilo West Coast IPA de 6.7% Alc.Vol."
+            },
+            {
+                "id": 6734,
+                "name": "AGUA MALA MANTARRAYA OATMEAL STOUT 355 ML",
+                "price": "85",
+                "category": "STOUT",
+                "image": "https://bierecarnallo.mx/wp-content/uploads/2024/12/5.png",
+                "desc": "De color marrón profundo con elegante espuma beige. Sabores asociados al cacao y frutos secos."
+            },
+            {
+                "id": 7985,
+                "name": "AGUA MALA FUGU JAPANESE LAGER 355 ML",
+                "price": "85",
+                "category": "LAGER",
+                "image": "https://bierecarnallo.mx/wp-content/uploads/2024/12/2-1.png",
+                "desc": "Cerveza ultra clara adicionada con arroz y durazno para lograr un final refrescante, seco y limpio."
+            },
+            {
+                "id": 8238,
+                "name": "CARDERA DARK LAGER 355 ML",
+                "price": "78",
+                "category": "LAGER",
+                "image": "https://bierecarnallo.mx/wp-content/uploads/2024/12/60.png",
+                "desc": "Lager de color oscuro con excelente notas a café tostado, cuerpo ligero y altamente bebible."
+            }
+        ];
+
+        // --- CATÁLOGO DE ACOMPAÑANTES COMIDA PARA SUGERIR COMBOS ---
+        var foodAcompañantes = [
+            { "name": "Tabla de Quesos Selectos", "price": 120, "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&q=80&w=200", "desc": "Queso de cabra, manchego curado y frutos secos." },
+            { "name": "Papas rústicas a las finas hierbas", "price": 60, "image": "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&q=80&w=200", "desc": "Crocantes al horno con alioli artesanal de ajo tostado." },
+            { "name": "Alitas de Pollo Glaseadas BBQ", "price": 110, "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&q=80&w=200", "desc": "Alitas marinadas en salsa agridulce con aderezo ranch de la casa." },
+            { "name": "Pretzel Horneado con sal de grano", "price": 45, "image": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&q=80&w=200", "desc": "Clásico estilo bávaro acompañado de dip de mostaza de cerveza." }
+        ];
+
+        // --- VARIABLES DE ESTADO ---
+        var activeProducts = [];
+        var currentIndex = 0;
+        var rotationTime = 8000; // Rotación automática fija cada 8 segundos
+        var apiURL = "https://bierecarnallo.mx/rss-routicket/data.json";
+        var isConfigOpen = false;
+
+        // --- INICIALIZACIÓN ---
+        window.onload = function() {
+            startClock();
+            fetchMenuData();
+            setupConfigListeners();
+        };
+
+        // --- CONTROLADOR DE TIEMPO ---
+        function startClock() {
+            function update() {
+                var now = new Date();
+                var hours = now.getHours();
+                var minutes = String(now.getMinutes()).padStart(2, '0');
+                var seconds = String(now.getSeconds()).padStart(2, '0');
+                var ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12; 
+                
+                document.getElementById('live-time').innerText = hours + ":" + minutes + ":" + seconds + " " + ampm;
+
+                var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('live-date').innerText = now.toLocaleDateString('es-MX', options);
+            }
+            update();
+            setInterval(update, 1000);
+        }
+
+        // --- OBTENER DATOS (API / RESPALDO) ---
+        function fetchMenuData() {
+            fetch(apiURL)
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    if (data && data.products && data.products.length > 0) {
+                        activeProducts = data.products.map(function(p) {
+                            return {
+                                "id": p.id,
+                                "name": p.name,
+                                "price": parseInt(p.price) || 75,
+                                "category": (p.categories && p.categories.length > 0) ? p.categories[0].name : "CERVEZA",
+                                "image": (p.images && p.images.length > 0) ? p.images[0].src : "",
+                                "desc": p.description ? p.description.replace(/<[^>]*>/g, '').trim() : "Cerveza premium fría y lista para servirse."
+                            };
+                        });
+                        console.log("Datos de API cargados.");
+                    } else {
+                        throw new Error();
+                    }
+                    startScreenEngine();
+                })
+                .catch(function() {
+                    console.log("Error de conexión o CORS. Usando base de datos local preinstalada.");
+                    activeProducts = backupProducts;
+                    startScreenEngine();
+                });
+        }
+
+        // --- CONFIGURACIÓN DE PANTALLA ---
+        function toggleConfig() {
+            isConfigOpen = !isConfigOpen;
+            var body = document.getElementById('config-body');
+            if (isConfigOpen) {
+                body.classList.remove('hidden');
+            } else {
+                body.classList.add('hidden');
+            }
+        }
+
+        function setupConfigListeners() {
+            // Sincronizar texto de la marquesina con configuración
+            var input = document.getElementById('marquee-input');
+            input.oninput = function(e) {
+                document.getElementById('marquee-text').innerText = e.target.value;
+            };
+
+            // Tecla 'C' o 'c' abre configuración de manera rápida
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'c' || e.key === 'C') {
+                    if (document.activeElement.tagName !== 'INPUT') {
+                        toggleConfig();
+                    }
+                }
+            });
+        }
+
+        // --- ARRANQUE DEL MOTOR ---
+        function startScreenEngine() {
+            document.getElementById('loader').style.display = 'none';
+            renderDashboard();
+
+            setInterval(function() {
+                currentIndex = (currentIndex + 1) % activeProducts.length;
+                renderDashboard();
+            }, rotationTime);
+        }
+
+        // --- SISTEMA SUGERIDOR DE COMBO (DINÁMICO) ---
+        function buildDynamicCombo(cerveza) {
+            // Seleccionar botana de maridaje de forma determinista usando el ID de la cerveza
+            var botanaIndex = cerveza.id % foodAcompañantes.length;
+            var botana = foodAcompañantes[botanaIndex];
+
+            // Diseñar combo
+            var comboType = document.getElementById('package-type').value;
+            var promoData = {
+                isCombo: true,
+                styleClass: "border-amber-500",
+                category: "MARIDAJE RECOMENDADO",
+                name: "COMBO: " + cerveza.category + " + BOTANA",
+                price: Math.round((cerveza.price + botana.price) * 0.9), // 10% descuento por paquete
+                desc: "Disfruta de una " + cerveza.name + " maridada perfectamente con " + botana.name + " (" + botana.desc + ").",
+                image1: cerveza.image,
+                image2: botana.image,
+                tag: "COMBO MARIDAJE 🔥"
+            };
+
+            if (comboType === 'friends') {
+                promoData.category = "PAQUETE PARA COMPARTIR";
+                promoData.name = "DUO " + cerveza.category;
+                promoData.price = Math.round((cerveza.price * 2) * 0.85); // 15% descuento en pareja
+                promoData.desc = "Lleva dos cervezas " + cerveza.name + " frías en tu mesa por un precio único de promoción hoy.";
+                promoData.image1 = cerveza.image;
+                promoData.image2 = cerveza.image; // Muestra doble botella
+                promoData.tag = "DUO PROMO 🍻";
+            } else if (comboType === 'discount') {
+                promoData.category = "OFERTA POR PACK";
+                promoData.name = "TRIPACK " + cerveza.category;
+                promoData.price = Math.round(cerveza.price * 2.5); // El tercero a mitad de precio
+                promoData.desc = "Llévate el Tripack de " + cerveza.name + " y te regalamos la mitad de la tercera botella.";
+                promoData.image1 = cerveza.image;
+                promoData.image2 = ""; // No segunda imagen
+                promoData.tag = "TRIPACK PREMIUM 📦";
+            }
+
+            return promoData;
+        }
+
+        // --- RENDERIZADO DEL DASHBOARD TV ---
+        function renderDashboard() {
+            if (activeProducts.length === 0) return;
+
+            var cervezaActiva = activeProducts[currentIndex];
+            var sugerirPaquetes = document.getElementById('toggle-packages').checked;
+            
+            // Alternar: Mostrar un paquete en lugar de producto individual cada dos ciclos si está activado
+            var mostrarComoPaquete = sugerirPaquetes && (currentIndex % 2 === 1);
+            
+            var promoData = {};
+            if (mostrarComoPaquete) {
+                // Armamos un combo para promocionar en el cartel grande
+                promoData = buildDynamicCombo(cervezaActiva);
+            } else {
+                // Promocionamos la cerveza individual de forma súper atractiva
+                promoData = {
+                    isCombo: false,
+                    styleClass: "border-amber-500/30",
+                    category: cervezaActiva.category,
+                    name: cervezaActiva.name,
+                    price: cervezaActiva.price,
+                    desc: cervezaActiva.desc || "Disfruta de esta deliciosa cerveza artesanal bien helada en nuestra barra.",
+                    image1: cervezaActiva.image || "https://images.unsplash.com/photo-1566753323558-f4e0952af115?auto=format&fit=crop&q=80&w=350",
+                    image2: "",
+                    tag: "RECOMENDACIÓN DE LA BARRA ⭐"
+                };
+            }
+
+            // --- RENDERIZAR PANEL PROMO (IZQUIERDA) ---
+            var promoSection = document.getElementById('promo-section');
+            var img1 = document.getElementById('promo-image-1');
+            var img2 = document.getElementById('promo-image-2');
+            
+            // Reiniciar animación para generar entrada fluida (slide y movimiento)
+            promoSection.classList.remove('animate-slide-up');
+            void promoSection.offsetWidth; // Disparador de reflow
+            promoSection.classList.add('animate-slide-up');
+
+            // Setear etiqueta superior
+            document.getElementById('promo-tag').innerText = promoData.tag;
+            
+            // Setear categoría, nombre y descripción
+            document.getElementById('promo-category').innerText = "CATEGORÍA: " + promoData.category;
+            document.getElementById('promo-name').innerText = promoData.name;
+            document.getElementById('promo-desc').innerText = promoData.desc;
+            document.getElementById('promo-price').innerText = promoData.price;
+
+            // Transición suave para las imágenes de promoción
+            img1.style.opacity = 0;
+            img2.style.opacity = 0;
+
+            setTimeout(function() {
+                img1.src = promoData.image1;
+                img1.style.opacity = 1;
+                
+                if (promoData.image2) {
+                    img2.src = promoData.image2;
+                    img2.classList.remove('hidden');
+                    img2.style.opacity = 1;
+                } else {
+                    img2.classList.add('hidden');
+                }
+            }, 150);
+
+            // --- RENDERIZAR TARJETAS EN CUADRÍCULA (DERECHA) ---
+            var cardsContainer = document.getElementById('cards-container');
+            var cardsHTML = "";
+
+            // Tomamos una sección dinámica de 4 tarjetas para mostrar a la derecha
+            var subsetStart = Math.max(0, currentIndex - 1);
+            if (subsetStart + 4 > activeProducts.length) {
+                subsetStart = Math.max(0, activeProducts.length - 4);
+            }
+            var pageSubset = activeProducts.slice(subsetStart, subsetStart + 4);
+
+            for (var i = 0; i < pageSubset.length; i++) {
+                var item = pageSubset[i];
+                var isSelected = item.id === cervezaActiva.id;
+
+                // Estilos de tarjeta premium de barra comercial
+                var borderThemeClass = isSelected 
+                    ? "border-amber-400 bg-amber-500/10 shadow-lg scale-[1.03] gold-glow" 
+                    : "border-white/5 bg-slate-900/60";
+
+                var activeBadge = isSelected 
+                    ? '<span class="text-[9px] bg-amber-400 text-slate-950 px-2 py-0.5 rounded-lg font-black tracking-widest mr-2 animate-pulse">AL MOMENTO</span>' 
+                    : '';
+
+                cardsHTML += `
+                    <div class="card-transition p-5 rounded-2xl border flex justify-between items-center h-32 relative overflow-hidden ${borderThemeClass}">
+                        
+                        <!-- Contenido principal -->
+                        <div class="flex items-center space-x-4 min-w-0 z-10">
+                            <!-- Imagen en miniatura redimensionada -->
+                            <div class="w-16 h-16 bg-slate-950/90 rounded-xl flex items-center justify-center p-1.5 border border-white/10 shrink-0">
+                                <img src="${item.image}" alt="${item.name}" 
+                                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1566753323558-f4e0952af115?auto=format&fit=crop&q=80&w=100';"
+                                     class="max-h-full max-w-full object-contain">
+                            </div>
+                            
+                            <div class="min-w-0">
+                                <div class="flex items-center mb-1">
+                                    ${activeBadge}
+                                    <span class="text-[9px] font-black text-amber-500 uppercase tracking-widest">${item.category}</span>
+                                </div>
+                                <h4 class="text-base font-black text-white truncate uppercase font-display">${item.name}</h4>
+                                <p class="text-xs text-gray-400 font-bold mt-0.5">Vol. 355 ML • Vidrio Frío</p>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta de precio integrado -->
+                        <div class="text-right shrink-0 z-10 flex flex-col justify-center items-end bg-slate-950/40 px-3 py-2 rounded-xl border border-white/5">
+                            <span class="text-[9px] text-gray-500 font-bold tracking-widest">PRECIO</span>
+                            <span class="text-2xl font-black text-emerald-400 font-mono">$${item.price}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            cardsContainer.innerHTML = cardsHTML;
+        }
+    </script>
+</body>
+</html>
