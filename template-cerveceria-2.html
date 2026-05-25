@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Biere Carnallo - Pantalla de Menú</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --bg:#050505;
+      --panel:#121212;
+      --panel2:#1a1a1a;
+      --gold:#f5b301;
+      --orange:#e07b00;
+      --cream:#f7f4ee;
+      --text:#fff;
+      --muted:#c9d1d9;
+    }
+    *{box-sizing:border-box}
+    html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif}
+    body{background:
+      radial-gradient(900px 420px at 0% 0%, rgba(245,179,1,.12), transparent 58%),
+      radial-gradient(900px 360px at 100% 100%, rgba(255,255,255,.05), transparent 60%),
+      var(--bg);}
+    .layout{height:100vh;display:flex;flex-direction:column}
+    header{height:90px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;background:#000;border-bottom:4px solid rgba(255,255,255,.16);box-shadow:0 10px 26px rgba(0,0,0,.8);flex:0 0 auto}
+    .brand{display:flex;align-items:center;gap:16px;min-width:0}
+    .brand img{height:60px;width:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);background:#fff;flex:0 0 auto}
+    .brand h1{margin:0;font-size:clamp(1rem,1.6vw,1.55rem);font-weight:900;letter-spacing:-1px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .brand p{margin:2px 0 0;color:#d8d8d8;font-size:clamp(.58rem,.8vw,.72rem);font-weight:700;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .header-right{text-align:right}
+    .clock{font-size:clamp(1rem,1.5vw,1.45rem);font-weight:900;color:#fff;line-height:1;font-family:monospace}
+    .date{margin-top:4px;font-size:clamp(.54rem,.75vw,.68rem);color:#aaa;text-transform:uppercase;font-weight:700;letter-spacing:.08em}
+
+    .main{flex:1;min-height:0;display:grid;grid-template-columns:34% 66%}
+    .hero{padding:16px 14px 14px 18px;border-right:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:12px;min-height:0}
+    .hero-stage{position:relative;flex:1;min-height:0;border-radius:24px;overflow:hidden;background:#0d0d0d;border:1px solid rgba(255,255,255,.12);box-shadow:0 16px 36px rgba(0,0,0,.42)}
+    .hero-media{position:absolute;inset:0;background:#111}
+    .hero-media img{width:100%;height:100%;object-fit:cover;display:block;background:#fff}
+    .hero-overlay{position:absolute;left:0;right:0;bottom:0;padding:24px 26px 28px;background:linear-gradient(180deg, rgba(0,0,0,.01), rgba(0,0,0,.72) 35%, rgba(0,0,0,.94))}
+    .spot{position:absolute;top:16px;left:16px;z-index:2;display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.92);color:#111;padding:9px 14px;border-radius:999px;font-size:.78rem;font-weight:900;text-transform:uppercase}
+    .hero-cat{display:inline-block;background:rgba(255,255,255,.1);color:#fff;padding:6px 12px;border-radius:999px;font-size:.74rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em}
+    .hero-category-big{margin:10px 0 12px;font-size:clamp(1.15rem,2.8vw,2.4rem);line-height:.98;font-weight:900;text-transform:uppercase;text-shadow:2px 2px 18px rgba(0,0,0,.3);color:#fff;max-width:12ch;word-break:break-word}
+    .hero-name{margin:8px 0 6px;font-size:clamp(.95rem,1.9vw,1.55rem);line-height:1.02;text-transform:uppercase;font-weight:900;color:#fff;max-width:18ch;word-break:break-word}
+    .hero-desc{font-size:clamp(.72rem,.95vw,.88rem);color:#efefef;line-height:1.35;max-width:95%;max-height:4.1em;overflow:hidden}
+    .hero-price{margin:10px 0 0;font-size:clamp(1.25rem,2vw,1.8rem);font-weight:900;color:#fff}
+    .hero-price:before{content:'$';font-size:.95rem;color:#fff;margin-right:5px}
+    .hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);font-size:clamp(.56rem,.75vw,.72rem);font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#fff}
+    .chip.active{background:linear-gradient(135deg,var(--orange),var(--gold));border-color:transparent;color:#111}
+    .hero-figure{display:flex;align-items:center;justify-content:center;min-height:280px;background:radial-gradient(circle at center, rgba(255,202,40,.08), transparent 60%)}
+    .hero-figure img{max-width:min(100%,360px);max-height:360px;object-fit:contain;filter:drop-shadow(0 20px 30px rgba(0,0,0,.75))}
+
+    .menu{padding:16px 20px 0;display:flex;flex-direction:column;min-height:0}
+    .menu-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding-bottom:12px}
+    .menu-title{margin:0;font-size:clamp(.9rem,1.5vw,1.25rem);text-transform:uppercase;font-weight:900;color:#fff}
+    .menu-sub{margin-top:5px;font-size:clamp(.62rem,.85vw,.76rem);color:#d7d7d7}
+    .menu-head .right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .cat-chip{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.06);color:#fff;padding:.38rem .72rem;border-radius:999px;font-size:clamp(.55rem,.75vw,.68rem);font-weight:900;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+    .cat-chip.active{background:#fff;color:#111;border-color:transparent}
+    .grid-wrap{flex:1;overflow:hidden;position:relative}
+    .track{will-change:transform;transform:translate3d(0,0,0)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding-bottom:14px}
+    .card{display:flex;background:var(--panel);border-radius:16px;height:126px;border:1px solid #232323;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.22);transition:transform .45s ease,box-shadow .45s ease,border-color .45s ease}
+    .card.highlight{border-color:var(--gold);box-shadow:0 0 30px rgba(255,255,255,.16);transform:scale(1.02);background:linear-gradient(180deg,#1c1c1c,#121212)}
+    .img-box{flex:0 0 126px;background:#000}
+    .img-box img{width:100%;height:100%;object-fit:cover;background:#fff;display:block}
+    .info{flex:1;padding:12px;display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+    .cat{color:#fff;font-size:clamp(.55rem,.75vw,.66rem);font-weight:900;text-transform:uppercase;letter-spacing:1px;opacity:.88}
+    .name{margin:4px 0 0;font-size:clamp(.8rem,1vw,.92rem);font-weight:900;line-height:1.05;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff}
+    .desc{font-size:clamp(.62rem,.82vw,.74rem);color:#bdbdbd;line-height:1.2;max-height:2.35em;overflow:hidden;margin-top:5px}
+    .price{font-size:clamp(1rem,1.3vw,1.2rem);font-weight:900;color:var(--gold);line-height:1}
+    .price:before{content:'$';font-size:.85rem;margin-right:2px;color:#fff}
+    .footer{height:56px;flex:0 0 auto;background:#fff;color:#111;border-top:4px solid #111;overflow:hidden;white-space:nowrap}
+    .marquee{display:inline-block;padding:16px 20px;font-size:clamp(.62rem,.85vw,.78rem);font-weight:900;text-transform:uppercase;letter-spacing:.08em;animation:marquee 28s linear infinite}
+    @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+    .fade-in{animation:fadeIn .7s ease both}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .config{position:fixed;right:16px;bottom:64px;z-index:50}
+    .config button{width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:#111;color:var(--gold);box-shadow:0 12px 26px rgba(0,0,0,.35);cursor:pointer}
+    .panel{display:none;position:absolute;right:54px;bottom:0;width:300px;background:#0b0b0b;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:16px;box-shadow:0 20px 40px rgba(0,0,0,.4)}
+    .panel.open{display:block}
+    .panel h4{margin:0 0 8px;font-size:clamp(.68rem,.95vw,.82rem);text-transform:uppercase;color:#fff}
+    .panel label{display:block;margin:10px 0 6px;font-size:clamp(.62rem,.85vw,.76rem);color:#bbb;font-weight:700}
+    .panel input,.panel select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:#111;color:#fff;outline:none}
+    .panel .row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+    .loading{position:fixed;left:14px;bottom:14px;background:rgba(0,0,0,.82);padding:10px 14px;border-radius:999px;z-index:100;display:flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:clamp(.72rem,.95vw,.92rem);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(8px);box-shadow:0 10px 24px rgba(0,0,0,.35);transition:opacity 1.2s ease, transform 1.2s ease}
+    .loading .dot{width:10px;height:10px;border-radius:999px;background:var(--gold);box-shadow:0 0 0 0 rgba(245,179,1,.6);animation:dotPulse 1.2s infinite}
+    .loading.fade-out{opacity:0;transform:translateY(6px)}
+    .hero-fade{transition:opacity .95s ease}
+    .hero-fade.is-hidden{opacity:0}
+    @keyframes dotPulse{0%{box-shadow:0 0 0 0 rgba(245,179,1,.7)}70%{box-shadow:0 0 0 10px rgba(245,179,1,0)}100%{box-shadow:0 0 0 0 rgba(245,179,1,0)}}
+    @media (max-width: 1600px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width: 1280px){header{height:82px;padding:0 20px}.brand img{height:54px;width:54px}.main{grid-template-columns:30% 70%}.card{height:112px}.img-box{flex-basis:112px}}
+    @media (max-width: 1024px){html,body{overflow:auto}.layout{height:auto;min-height:100vh}.main{display:block}.hero,.menu{padding:14px}.grid{grid-template-columns:1fr}.footer{height:auto}.marquee{font-size:.8rem}}
+  </style>
+</head>
+<body>
+<?php
+$backup = [
+  ['id'=>7776,'name'=>'SANTA SABINA STOUT DE OLLA 355 ML','price'=>75,'category'=>'STOUT','image'=>'https://bierecarnallo.mx/wp-content/uploads/2024/12/images-7-1.jpeg','desc'=>'Cerveza artesanal mexicana Stout con un toque tradicional de café de olla, piloncillo y canela.'],
+  ['id'=>8158,'name'=>'PRINCIPIA DARK LAGER 355 ML','price'=>69,'category'=>'LAGER','image'=>'https://bierecarnallo.mx/wp-content/uploads/2024/12/Principia-Dark-Lager_1200x1200.webp','desc'=>'Lager oscura, refrescante pero con notas a malta tostada y cacao.'],
+  ['id'=>10083,'name'=>'PRINCIPIA SESSION IPA 355 ML','price'=>79,'category'=>'IPA','image'=>'https://bierecarnallo.mx/wp-content/uploads/2025/01/AV60.1B.jpg','desc'=>'Ligera, aromática, con notas cítricas y frutales.'],
+  ['id'=>7691,'name'=>'PRINCIPIA OATMEAL STOUT 355 ML','price'=>74,'category'=>'STOUT','image'=>'https://bierecarnallo.mx/wp-content/uploads/2024/12/Principia_OatmealStout_384x384.webp','desc'=>'De textura cremosa y suave gracias a la avena.'],
+  ['id'=>7695,'name'=>'PRINCIPIA SPECTRA IPA 355 ML','price'=>87,'category'=>'IPA','image'=>'https://bierecarnallo.mx/wp-content/uploads/2024/12/6b1a1d_510b7c9f95cf4156af38646d27f9a18cmv2.webp','desc'=>'Color dorado intenso, amargor limpio y potente aroma frutal.'],
+  ['id'=>6734,'name'=>'AGUA MALA MANTARRAYA OATMEAL STOUT 355 ML','price'=>85,'category'=>'STOUT','image'=>'https://bierecarnallo.mx/wp-content/uploads/2024/12/5.png','desc'=>'De color marrón profundo con elegante espuma beige.'],
+  ['id'=>7985,'name'=>'AGUA MALA FUGU JAPANESE LAGER 355 ML','price'=>85,'category'=>'LAGER','image'=>'https://bierecarnallo.mx/wp-content/uploads/2024/12/2-1.png','desc'=>'Adicionada con arroz y durazno para un final limpio.'],
+  ['id'=>8238,'name'=>'CARDERA DARK LAGER 355 ML','price'=>78,'category'=>'LAGER','image'=>'https://bierecarnallo.mx/wp-content/uploads/2024/12/60.png','desc'=>'Lager oscura con notas a café tostado y cuerpo ligero.']
+];
+$food = [
+  ['name'=>'Tabla de Quesos Selectos','price'=>120,'image'=>'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&q=80&w=700','desc'=>'Queso de cabra, manchego curado y frutos secos.'],
+  ['name'=>'Papas rústicas a las finas hierbas','price'=>60,'image'=>'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&q=80&w=700','desc'=>'Crocantes al horno con alioli artesanal.'],
+  ['name'=>'Alitas de Pollo Glaseadas BBQ','price'=>110,'image'=>'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&q=80&w=700','desc'=>'Alitas marinadas en salsa agridulce.'],
+  ['name'=>'Pretzel Horneado con sal de grano','price'=>45,'image'=>'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&q=80&w=700','desc'=>'Estilo bávaro con dip de mostaza de cerveza.']
+];
+$products = $backup;
+$selectedCategory = isset($_GET['categoria']) ? strtolower(trim((string)$_GET['categoria'])) : 'all';
+if ($selectedCategory !== 'all') {
+  $filtered = array_values(array_filter($products, function($p) use ($selectedCategory) {
+    return strtolower((string)$p['category']) === $selectedCategory;
+  }));
+  if ($filtered) $products = $filtered;
+}
+$hero = $products[0];
+$cats = ['all' => 'Todas'];
+foreach ($backup as $p) { $cats[strtolower($p['category'])] = $p['category']; }
+?>
+  <div class="layout">
+    <header>
+    <div class="brand">
+      <img src="https://i.imgur.com/9L2bt5o.png" alt="Biere Carnallo" style="height:74px;width:auto;border:0;background:transparent;border-radius:0">
+      <div style="min-width:0">
+        <h1>Biere Carnallo</h1>
+        <p>Un mundo de cervezas artesanales</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div id="clock" class="clock">00:00:00</div>
+      <div id="date" class="date">Lunes, 25 de Mayo</div>
+    </div>
+  </header>
+
+  <div class="main">
+    <aside class="hero">
+      <div class="hero-stage fade-in">
+        <div class="hero-media">
+          <img id="heroImage" src="<?= htmlspecialchars($hero['image'], ENT_QUOTES, 'UTF-8') ?>" alt="Destacado">
+        </div>
+        <div class="spot">Destacado en pantalla</div>
+        <div class="hero-overlay">
+          <span id="heroCat" class="hero-cat"><?= htmlspecialchars($hero['category'], ENT_QUOTES, 'UTF-8') ?></span>
+          <div id="heroCategoryBig" class="hero-category-big"><?= htmlspecialchars($selectedCategory === 'all' ? 'Todas las cervezas' : strtoupper($selectedCategory), ENT_QUOTES, 'UTF-8') ?></div>
+          <h2 id="heroName" class="hero-name"><?= htmlspecialchars($hero['name'], ENT_QUOTES, 'UTF-8') ?></h2>
+          <div id="heroDesc" class="hero-desc"><?= htmlspecialchars($hero['desc'], ENT_QUOTES, 'UTF-8') ?></div>
+          <div id="heroPrice" class="hero-price"><?= number_format((float)$hero['price'], 2) ?></div>
+          <div class="hero-tags">
+            <span class="chip active"><i class="fa-solid fa-ice-cube"></i> Siempre frío</span>
+            <span class="chip"><i class="fa-solid fa-bowl-food"></i> Maridajes</span>
+            <span class="chip"><i class="fa-solid fa-clock"></i> Tiempo real</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="menu">
+      <div class="menu-head">
+        <div>
+          <h3 class="menu-title"><i class="fa-solid fa-beer-mug-empty" style="color:var(--gold);margin-right:8px"></i> Cerveza del Día</h3>
+          <div class="menu-sub">Selecciona categoría o deja correr la rotación automática</div>
+        </div>
+        <div class="right" id="categoryChips"></div>
+      </div>
+      <div class="grid-wrap">
+        <div id="grid" class="track grid"></div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer"><div id="marquee" class="marquee">BIERE CARNALLO • Un mundo de cervezas artesanales • Pregunta por nuestras catas y maridajes los fines de semana • Deliciosas botanas disponibles en barra</div></footer>
+  </div>
+
+  <div class="config">
+  <button id="cfgBtn" type="button"><i class="fa-solid fa-gears"></i></button>
+  <div id="cfgPanel" class="panel">
+    <h4>Ajustes</h4>
+    <label>Categoría principal</label>
+    <select id="categorySelect">
+      <?php foreach ($cats as $k => $label): ?>
+        <option value="<?= htmlspecialchars($k, ENT_QUOTES, 'UTF-8') ?>" <?= $selectedCategory === $k ? 'selected' : '' ?>><?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?></option>
+      <?php endforeach; ?>
+    </select>
+    <label>Anuncio inferior</label>
+    <input id="marqueeInput" type="text" value="BIERE CARNALLO • Un mundo de cervezas artesanales • Pregunta por nuestras catas y maridajes los fines de semana • Deliciosas botanas disponibles en barra">
+    <div class="row">
+      <label style="margin:0">Paquetes sugeridos</label>
+      <input id="packToggle" type="checkbox" checked style="width:18px;height:18px">
+    </div>
+  </div>
+</div>
+
+  <div id="loading" class="loading"><span class="dot"></span><span>Sincronizando menú...</span></div>
+
+<script>
+  var products = <?php echo json_encode($products, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+  var backupFood = <?php echo json_encode($food, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+  var current = 0;
+  var mode = 'scroll';
+  var rotationTime = 10000;
+  var scrollY = 0;
+  var loopHeight = 0;
+  var fadePage = 0;
+  var fadeSize = 8;
+  var rotationPool = [];
+  var ticker = document.getElementById('marquee');
+  var grid = document.getElementById('grid');
+  var loading = document.getElementById('loading');
+  var heroImage = document.getElementById('heroImage');
+  var heroCat = document.getElementById('heroCat');
+  var heroCategoryBig = document.getElementById('heroCategoryBig');
+  var heroName = document.getElementById('heroName');
+  var heroDesc = document.getElementById('heroDesc');
+  var heroPrice = document.getElementById('heroPrice');
+  var categoryChips = document.getElementById('categoryChips');
+  var cfgBtn = document.getElementById('cfgBtn');
+  var cfgPanel = document.getElementById('cfgPanel');
+  var categorySelect = document.getElementById('categorySelect');
+  var marqueeInput = document.getElementById('marqueeInput');
+  var packToggle = document.getElementById('packToggle');
+  var wakeLock = null;
+  var wakeLockRequested = false;
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function tick(){
+    var d = new Date();
+    document.getElementById('clock').textContent = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+    document.getElementById('date').textContent = d.toLocaleDateString('es-MX',{weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  }
+  tick(); setInterval(tick,1000);
+
+  async function requestWakeLock(){
+    if (wakeLockRequested) return;
+    if (!('wakeLock' in navigator)) return;
+    wakeLockRequested = true;
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', function(){
+        wakeLockRequested = false;
+      });
+    } catch (e) {
+      wakeLockRequested = false;
+    }
+  }
+
+  function refreshWakeLock(){
+    if (document.visibilityState === 'visible') {
+      requestWakeLock();
+    }
+  }
+
+  document.addEventListener('visibilitychange', refreshWakeLock);
+  window.addEventListener('focus', refreshWakeLock);
+  window.addEventListener('pointerdown', refreshWakeLock, { passive: true });
+
+  function img(src){
+    return src || 'https://images.unsplash.com/photo-1566753323558-f4e0952af115?auto=format&fit=crop&q=80&w=700';
+  }
+  function normalizeProduct(p){
+    var item = p || {};
+    var out = {
+      id: item.id || Math.floor(Math.random() * 1000000),
+      name: item.name || 'Producto',
+      price: Number(item.price || 0),
+      category: item.category || 'Cerveza',
+      image: item.image || '',
+      desc: item.desc || item.description || 'Listo para pedir.'
+    };
+    if (!out.category) out.category = 'Cerveza';
+    return out;
+  }
+  function shuffleArray(arr){
+    var list = (arr || []).slice();
+    for (var i = list.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = list[i];
+      list[i] = list[j];
+      list[j] = tmp;
+    }
+    return list;
+  }
+  function buildRotationPool(){
+    var visible = getVisible();
+    if (!visible.length) visible = products.slice();
+    var grouped = {};
+    var withCategory = [];
+    var withoutCategory = [];
+    for (var i = 0; i < visible.length; i++) {
+      var item = normalizeProduct(visible[i]);
+      if (item.category && String(item.category).trim() !== '') {
+        var catKey = String(item.category).toLowerCase();
+        if (!grouped[catKey]) grouped[catKey] = [];
+        grouped[catKey].push(item);
+      } else {
+        withoutCategory.push(item);
+      }
+    }
+    var keys = Object.keys(grouped);
+    if (keys.length) {
+      for (var k = 0; k < keys.length; k++) {
+        var group = grouped[keys[k]];
+        for (var g = 0; g < group.length; g++) {
+          withCategory.push(group[g]);
+        }
+      }
+    }
+    rotationPool = withCategory.concat(shuffleArray(withoutCategory));
+    if (!rotationPool.length) rotationPool = shuffleArray(products.map(normalizeProduct));
+  }
+  function catLabel(v){
+    if (!v || v === 'all') return 'Todas las cervezas';
+    return String(v).replace(/_/g,' ').replace(/\b\w/g, function(m){ return m.toUpperCase(); });
+  }
+  function setHero(p){
+    if (!p) return;
+    var next = normalizeProduct(p);
+    heroImage.classList.add('hero-fade');
+    heroImage.classList.add('is-hidden');
+    window.setTimeout(function(){
+      heroImage.src = img(next.image);
+      heroCat.textContent = next.category || 'Cerveza';
+      heroCategoryBig.textContent = catLabel(categorySelect.value);
+      heroName.textContent = next.name || 'Producto';
+      heroDesc.textContent = next.desc || 'Listo para servirse.';
+      heroPrice.textContent = Number(next.price || 0).toFixed(2);
+      heroImage.classList.remove('is-hidden');
+    }, 180);
+  }
+  function buildChips(){
+    var cats = ['all'].concat(Object.keys(products.reduce(function(a,p){a[String((p.category || 'Cerveza')).toLowerCase()] = 1; return a;}, {})));
+    categoryChips.innerHTML = cats.map(function(c){
+      var label = c === 'all' ? 'Todas' : catLabel(c);
+      var active = categorySelect.value === c ? ' active' : '';
+      return '<button class="cat-chip'+active+'" data-cat="'+c+'">'+label+'</button>';
+    }).join('');
+    categoryChips.querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        categorySelect.value = btn.getAttribute('data-cat');
+        if (history.replaceState) {
+          var url = new URL(window.location.href);
+          if (categorySelect.value === 'all') url.searchParams.delete('categoria'); else url.searchParams.set('categoria', categorySelect.value);
+          history.replaceState({}, '', url.toString());
+        }
+        render();
+      });
+    });
+  }
+  function getVisible(){
+    var sel = (categorySelect.value || 'all').toLowerCase();
+    if (sel === 'all') return products;
+    var out = products.filter(function(p){ return String((p.category || 'Cerveza')).toLowerCase() === sel; });
+    return out.length ? out : products;
+  }
+  function buildCards(list){
+    if (!list.length) {
+      grid.innerHTML = '<div class="card"><div class="img-box"><img src="'+img('')+'"></div><div class="info"><div><div class="cat">Menu</div><div class="name">Sin productos</div></div><div class="desc">No hay productos activos.</div></div></div>';
+      return;
+    }
+    var html = '';
+    var targetCount = Math.max(8, list.length);
+    for (var i=0;i<targetCount;i++){
+      var p = normalizeProduct(list[i % list.length]);
+      var highlighted = i === (current % targetCount);
+      html += '<div class="card'+(highlighted?' highlight':'')+' fade-in">'+
+        '<div class="img-box"><img src="'+img(p.image)+'" onerror="this.onerror=null;this.src=\''+img('')+'\'"></div>'+
+        '<div class="info">'+
+          '<div><div class="cat">'+(p.category||'MENU')+'</div><div class="name">'+(p.name||'Producto')+'</div></div>'+
+          '<div class="desc">'+(p.desc||'Listo para pedir.')+'</div>'+
+          '<div class="price">'+Number(p.price||0).toFixed(2)+'</div>'+
+        '</div>'+
+      '</div>';
+    }
+    grid.innerHTML = html;
+  }
+  function render(){
+    if (!rotationPool.length) buildRotationPool();
+    var visible = rotationPool.length ? rotationPool : getVisible();
+    if (!visible.length) visible = products;
+    setHero(normalizeProduct(visible[current % visible.length]));
+    buildCards(visible);
+    buildChips();
+    document.getElementById('heroCategoryBig').textContent = catLabel(categorySelect.value);
+  }
+  function rotate(){
+    var visible = rotationPool.length ? rotationPool : getVisible();
+    if (!visible.length) return;
+    current = (current + 1) % visible.length;
+    buildRotationPool();
+    render();
+  }
+  function autoMotion(){
+    setInterval(rotate, rotationTime);
+  }
+  cfgBtn.addEventListener('click', function(){ cfgPanel.classList.toggle('open'); });
+  categorySelect.addEventListener('change', function(){
+    current = 0;
+    buildRotationPool();
+    render();
+  });
+  marqueeInput.addEventListener('input', function(){ ticker.textContent = marqueeInput.value; });
+  packToggle.addEventListener('change', function(){
+    if (packToggle.checked) {
+      ticker.textContent = marqueeInput.value;
+    }
+  });
+  try {
+    var urlParams = new URLSearchParams(window.location.search);
+    var cat = (urlParams.get('categoria') || urlParams.get('category') || '').trim().toLowerCase();
+    if (cat) categorySelect.value = cat;
+  } catch (e) {}
+  buildRotationPool();
+  render();
+  autoMotion();
+  window.setTimeout(function(){ loading.classList.add('fade-out'); window.setTimeout(function(){ loading.style.display = 'none'; }, 1200); }, 1500);
+  requestWakeLock();
+</script>
+</body>
+</html>
