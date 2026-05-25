@@ -1,0 +1,121 @@
+Usa estos comandos en Ubuntu limpio.
+
+  ## 1. Actualiza el sistema
+
+  sudo apt update
+  sudo apt upgrade -y
+
+  ## 2. Busca qué paquetes de Firebird hay disponibles
+
+  apt-cache search firebird | sed -n '1,120p'
+
+  ## 3. Instala Firebird si aparece la rama 2.5
+
+  Si ves paquetes como firebird2.5-server o firebird2.5-utils, instala eso:
+
+  sudo apt install -y firebird2.5-server firebird2.5-utils
+
+  Si esos no existen en tu Ubuntu, prueba la rama disponible más cercana que sí puedas instalar, pero para tu base ODS 11.0 lo ideal es 2.5.
+
+  ## 4. Verifica que el servicio esté arriba
+
+  sudo systemctl status firebird2.5-super || true
+  sudo systemctl status firebird2.5 || true
+  sudo systemctl status firebird-server || true
+
+  Si no arranca solo, intenta:
+
+  sudo systemctl enable firebird2.5-super || true
+  sudo systemctl start firebird2.5-super || true
+  sudo systemctl enable firebird2.5 || true
+  sudo systemctl start firebird2.5 || true
+
+  ## 5. Confirma que escucha en el puerto
+
+  sudo ss -ltnp | grep 3050 || true
+
+  ## 6. Copia tu base al Ubuntu
+
+  Por ejemplo, si la llevaste a /home/tuusuario/RESTAURADO.FDB:
+
+  ls -lh /home/$USER/RESTAURADO.FDB
+
+  ## 7. Abre isql
+
+  isql -user sysdba -password masterkey
+
+  Si isql no existe, busca el binario:
+
+  which isql
+  which isql-fb
+
+  ## 8. Conecta a la base
+
+  Dentro de isql:
+
+  CONNECT '/home/tuusuario/RESTAURADO.FDB';
+  SHOW DATABASE;
+  QUIT;
+
+  Si el servidor está escuchando en otro host/puerto, usa:
+
+  CONNECT '127.0.0.1/3050:/home/tuusuario/RESTAURADO.FDB';
+  SHOW DATABASE;
+  QUIT;
+
+  ## 9. Lista tablas
+
+  Si conecta, entra otra vez a isql y ejecuta:
+
+  SHOW TABLES;
+
+  ## 10. Saca el esquema de tablas clave
+
+  SHOW TABLE VENTATICKETS;
+  SHOW TABLE VENTATICKETS_ARTICULOS;
+  SHOW TABLE PRODUCTOS;
+  SHOW TABLE VENTAS;
+  SHOW TABLE USUARIOS;
+  SHOW TABLE CAJAS;
+  QUIT;
+
+  ## 11. Si quieres exportar metadata a texto
+
+  Con isql conectado:
+
+  SET LIST ON;
+  SELECT rdb$relation_name
+  FROM rdb$relations
+  WHERE COALESCE(rdb$system_flag, 0) = 0
+  ORDER BY 1;
+  QUIT;
+
+  ## 12. Si la base no abre por permisos
+
+  Da permisos al archivo:
+
+  sudo chown $USER:$USER /home/$USER/RESTAURADO.FDB
+  chmod 664 /home/$USER/RESTAURADO.FDB
+
+  ## 13. Si el servicio no arranca
+
+  Revisa logs:
+
+  journalctl -u firebird2.5-super -n 100 --no-pager || true
+  journalctl -u firebird2.5 -n 100 --no-pager || true
+
+  ## 14. Si no encuentras isql
+
+  Busca el paquete utilitario:
+
+  apt-cache search isql | grep -i firebird || true
+
+  ## 15. Si quieres instalar cliente y servidor juntos
+
+  sudo apt install -y firebird2.5-server firebird2.5-utils firebird2.5-common
+
+  Si quieres, en el siguiente mensaje te dejo un bloque único de comandos para copiar y pegar en Ubuntu sin decidir nada, con detección automática de isql y del servicio.
+
+  1 background terminal running · /ps to view · /stop to close
+
+ 
