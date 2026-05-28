@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación - Ruta de Programación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { scroll-behavior: smooth; }
+        .sidebar-item:hover { background-color: #e5e7eb; cursor: pointer; }
+    </style>
+</head>
+<body class="bg-gray-50 flex min-h-screen">
+
+    <aside class="w-64 bg-white border-r border-gray-200 p-6 hidden md:block">
+        <h2 class="font-bold text-gray-800 mb-6">Contenido del Curso</h2>
+        <nav class="space-y-4 text-gray-600">
+            <div class="sidebar-item p-2 rounded" onclick="document.getElementById('etapa1').scrollIntoView()">1. Fundamentos</div>
+            <div class="sidebar-item p-2 rounded" onclick="document.getElementById('etapa2').scrollIntoView()">2. Maquetación (Frontend)</div>
+            <div class="sidebar-item p-2 rounded" onclick="document.getElementById('etapa3').scrollIntoView()">3. Backend y Local</div>
+            <div class="sidebar-item p-2 rounded" onclick="document.getElementById('etapa4').scrollIntoView()">4. Profesionalización</div>
+        </nav>
+    </aside>
+
+    <main class="flex-1 p-8 md:p-12">
+        <div class="max-w-3xl mx-auto">
+            <header class="mb-12">
+                <h1 class="text-4xl font-extrabold text-blue-900">Ruta de Aprendizaje: Domina el Desarrollo Web</h1>
+                <p class="text-gray-600 mt-4 text-lg">Tu guía paso a paso para pasar de principiante a desarrollador en robótica.com.</p>
+            </header>
+
+            <section id="etapa1" class="mb-16">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4 border-b pb-2">Etapa 1: Fundamentos y Mentalidad</h2>
+                <p class="text-gray-700 mb-4">La programación es, ante todo, la capacidad de resolver problemas. Antes de escribir código, debemos aprender a pensar lógicamente, descomponiendo problemas grandes en pasos pequeños y manejables.</p>
+                <ul class="list-disc ml-6 space-y-4 text-gray-700">
+                    <li><strong>Lógica y Algoritmos:</strong> Aprenderás que un algoritmo es una serie de pasos finitos para resolver un problema. La lógica te permite estructurar estas instrucciones de modo que la computadora pueda ejecutarlas sin errores, utilizando condicionales (si pasa esto, haz aquello) y ciclos (repite esto hasta que...).</li>
+                    <li><strong>POO (Programación Orientada a Objetos):</strong> Es un paradigma que modela el código como "objetos" del mundo real. Cada objeto tiene atributos (características) y métodos (acciones). Aprender esto te permite escribir código más modular y reutilizable, esencial para proyectos de gran escala.</li>
+                    <li><strong>Entorno de Desarrollo:</strong> No solo es escribir código, sino configurar tu espacio de trabajo. Herramientas como VS Code ofrecen extensiones que detectan errores, sugieren código y facilitan la vida del desarrollador desde el primer minuto.</li>
+                </ul>
+                <div class="mt-4 bg-blue-50 p-4 rounded-lg text-sm">
+                    <h4 class="font-bold text-blue-800">Recurso recomendado:</h4>
+                    <a href="https://developer.mozilla.org/es/docs/Learn" class="text-blue-600 hover:underline">MDN Web Docs: Aprender Desarrollo Web</a>
+                </div>
+            </section>
+
+            <section id="etapa2" class="mb-16">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4 border-b pb-2">Etapa 2: Maquetación y Frontend</h2>
+                <p class="text-gray-700 mb-4">El Frontend es la cara visible de tu web. Imagina que el HTML es el esqueleto, el CSS es la piel y la ropa, y JavaScript es el cerebro que decide cómo se mueve y reacciona.</p>
+                <ul class="list-disc ml-6 space-y-4 text-gray-700">
+                    <li><strong>HTML5:</strong> Es el lenguaje de marcado estándar. Aprenderás sobre la semántica, que no es solo poner etiquetas, sino usar las correctas (header, section, footer) para que los navegadores y buscadores entiendan qué contiene tu página.</li>
+                    <li><strong>CSS3:</strong> Es el lenguaje de estilos. Dominarás el modelo de caja (box model), Flexbox y Grid, que son las tecnologías modernas para hacer que tus sitios se vean perfectos tanto en un celular como en un monitor grande, sin que el diseño se rompa.</li>
+                    <li><strong>Vanilla JS:</strong> Es JavaScript puro, sin librerías externas. Aprenderás a manipular el DOM, que es la estructura de tu página. Esto te permitirá crear interactividad: validar formularios, cambiar colores dinámicamente o capturar los clics del usuario.</li>
+                </ul>
+            </section>
+
+            <section id="etapa3" class="mb-16">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4 border-b pb-2">Etapa 3: Backend y Entorno Local</h2>
+                <p class="text-gray-700 mb-4">El Backend es donde ocurre la magia "tras bambalinas". Mientras que el Frontend vive en el navegador del usuario, el Backend vive en el servidor y procesa la información antes de enviarla.</p>
+                <ul class="list-disc ml-6 space-y-4 text-gray-700">
+                    <li><strong>Servidor Local (XAMPP):</strong> Como no siempre podemos subir código a un servidor real durante el desarrollo, instalamos XAMPP. Esto crea un "localhost" en tu propia computadora, permitiéndote ejecutar PHP y manejar bases de datos como si fuera una web real.</li>
+                    <li><strong>Backend vs Frontend:</strong> Aprenderás que la comunicación se basa en peticiones (Requests) y respuestas (Responses). El Frontend le pide datos al Backend, y el Backend responde con información (normalmente en formato JSON o HTML procesado).</li>
+                    <li><strong>Gestión de Datos:</strong> Aquí aprenderás sobre bases de datos relacionales como MySQL. Entenderás cómo crear tablas, insertar información (usuarios, registros, mensajes) y consultarla para mostrarla en tu página de forma dinámica.</li>
+                </ul>
+            </section>
+
+            <section id="etapa4" class="mb-16">
+                <h2 class="text-2xl font-bold text-blue-700 mb-4 border-b pb-2">Etapa 4: Profesionalización</h2>
+                <p class="text-gray-700 mb-4">Un profesional no solo escribe código, también lo gestiona. Esta etapa trata sobre las herramientas que usan los desarrolladores senior para mantener sus proyectos seguros y escalables.</p>
+                <ul class="list-disc ml-6 space-y-4 text-gray-700">
+                    <li><strong>Git (Control de versiones):</strong> Es como un "botón de guardar" con memoria infinita. Te permite volver a una versión anterior si algo se rompe, experimentar con nuevas ideas en "ramas" (branches) sin afectar el proyecto principal y colaborar con otros sin sobrescribir su trabajo.</li>
+                    <li><strong>Flujo de trabajo:</strong> Se trata de mantener el orden. Aprenderás a estructurar carpetas, nombrar archivos correctamente, documentar tu código con comentarios claros y adoptar prácticas que permitan que otros (o tú mismo en el futuro) puedan leer y entender tu trabajo sin esfuerzo.</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            console.log("Navegando por la documentación...");
+        });
+    </script>
+</body>
+</html>
